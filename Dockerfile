@@ -1,9 +1,15 @@
 FROM tailscale/tailscale:latest
 
-RUN apt-get update && \
-    apt-get install -y rsync openssh-client iputils-ping && \
-    rm -rf /var/lib/apt/lists/*
+# Install useful tools
+RUN apt-get update && apt-get install -y \
+    rsync \
+    openssh-client \
+    iputils-ping \
+    curl \
+    bash \
+ && rm -rf /var/lib/apt/lists/*
 
+# Universal entrypoint
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
