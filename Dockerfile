@@ -1,15 +1,10 @@
-FROM debian:bookworm-slim
+FROM tailscale/tailscale:latest
 
-# Install dependencies
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends \
-        curl gnupg2 ca-certificates iputils-ping rsync openssh-client && \
-    curl -fsSL https://tailscale.com/install.sh | sh && \
+    apt-get install -y rsync openssh-client iputils-ping && \
     rm -rf /var/lib/apt/lists/*
 
-# Copy entrypoint
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
 ENTRYPOINT ["/entrypoint.sh"]
-CMD ["bash"]
