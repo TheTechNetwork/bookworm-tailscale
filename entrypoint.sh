@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 echo "🌀 Starting tailscaled..."
 /usr/sbin/tailscaled --state=/config/tailscaled.state --socket=/var/run/tailscale/tailscaled.sock &
