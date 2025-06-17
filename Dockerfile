@@ -1,15 +1,14 @@
 FROM tailscale/tailscale:latest
 
-# Install useful tools
-RUN apt-get update && apt-get install -y \
+# Install rsync, ping, ssh client, bash in Alpine
+RUN apk add --no-cache \
     rsync \
+    iputils \
     openssh-client \
-    iputils-ping \
-    curl \
     bash \
- && rm -rf /var/lib/apt/lists/*
+    curl
 
-# Universal entrypoint
+# Copy and use universal entrypoint
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
