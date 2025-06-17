@@ -31,8 +31,8 @@ jobs:
       - name: Build and Push Docker Image
         uses: docker/build-push-action@v5
         with:
-          context: ./docker
-          file: Dockerfile
+          context: .
+          file: ./docker/Dockerfile
           push: true
           tags: ghcr.io/thetechnetwork/bookworm-tailscale:latest
           platforms: linux/amd64
