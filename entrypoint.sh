@@ -2,7 +2,7 @@
 set -e
 
 echo "🌀 Starting tailscaled..."
-tailscaled --state="${TAILSCALE_STATE_DIR:-/config}/tailscaled.state" --socket=/var/run/tailscale/tailscaled.sock &
+/usr/sbin/tailscaled --state="${TAILSCALE_STATE_DIR:-/config}/tailscaled.state" --socket=/var/run/tailscale/tailscaled.sock &
 sleep 3
 
 echo "🔐 Logging into Tailscale..."
