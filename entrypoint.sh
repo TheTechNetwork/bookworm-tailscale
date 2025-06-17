@@ -1,17 +1,21 @@
 #!/bin/bash
+set -e
 
 echo "🌀 Starting tailscaled..."
-# Start tailscaled in background with state saved to /config
-tailscaled --state=/config/tailscaled.state --socket=/var/run/tailscale/tailscaled.sock &
-
-# Wait for tailscaled to be ready
+tailscaled --state="${TAILSCALE_STATE_DIR:-/config}/tailscaled.state" --socket=/var/run/tailscale/tailscaled.sock &
 sleep 3
 
-# Only run tailscale up if not already logged in
-if ! tailscale status &>/dev/null; then
-  echo "🔐 Running tailscale up..."
-  tailscale up --hostname="${TAILSCALE_HOSTNAME:-rsync-seedbox}" --reset
-fi
+echo "🔐 Logging into Tailscale..."
+tailscale up --hostname="${TAILSCALE_HOSTNAME:-universal-box}" --reset
 
-# Execute the container's main command
+echo "⏳ Waiting for Tailscale to be ready..."
+for i in {1..10}; do
+  if tailscale status &>/dev/null; then
+    echo "✅ Tailscale is up."
+    break
+  fi
+  sleep 2
+done
+
+echo "🚀 Running command: $@"
 exec "$@"
